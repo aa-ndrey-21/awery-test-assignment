@@ -1,0 +1,36 @@
+services:
+    nginx:
+        image: nginx:1.29.3-alpine-slim
+        volumes:
+            - ./:/var/www/backend
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        ports:
+            - "8000:80"
+        depends_on:
+            - app
+        container_name: awery-test-assignment_nginx
+    app:
+        build:
+            context: .
+            dockerfile: docker/app/Dockerfile
+        volumes:
+            - ./:/var/www/backend
+        depends_on:
+            - mysql
+            - redis
+        container_name: awery-test-assignment
+    mysql:
+        image: mysql:9.6
+        container_name: awery-test-assignment_mysql
+        restart: no
+        shm_size: 128mb
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - ./tmp/db:/var/lib/mysql
+    redis:
+        image: redis:8.4.0-alpine
+        container_name: awery-test-assignment_redis

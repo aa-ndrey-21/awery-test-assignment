@@ -1,0 +1,11 @@
+services:
+    frontend:
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+        volumes:
+            - ./:/var/www/frontend
+            - /var/www/frontend/node_modules
+        ports:
+            - "4200:4200"
+        container_name: awery-test-assignment_frontend
