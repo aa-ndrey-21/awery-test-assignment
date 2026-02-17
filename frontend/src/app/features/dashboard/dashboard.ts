@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   currentPage = signal(1);
   lastPage = signal(1);
   loading = signal(false);
+  error = signal('');
 
   ngOnInit(): void {
     this.loadNews(1);
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit {
 
   loadNews(page: number): void {
     this.loading.set(true);
+    this.error.set('');
     this.newsService.getAll(page).subscribe({
       next: (res) => {
         this.newsList.set(res.data);
@@ -30,7 +32,10 @@ export class DashboardComponent implements OnInit {
         this.lastPage.set(res.meta.last_page);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false),
+      error: () => {
+        this.loading.set(false);
+        this.error.set('Failed to load news. Please try again.');
+      },
     });
   }
 }

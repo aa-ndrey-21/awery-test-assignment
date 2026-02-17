@@ -43,7 +43,13 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.errorMessage.set(err.error?.message || 'Invalid credentials. Please try again.');
+        if (err.status === 422) {
+          this.errorMessage.set(err.error?.message || 'Invalid credentials. Please try again.');
+        } else if (err.status === 0) {
+          this.errorMessage.set('Network error. Check your internet connection.');
+        } else {
+          this.errorMessage.set('Something went wrong. Please try again later.');
+        }
       },
     });
   }

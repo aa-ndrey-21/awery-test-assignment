@@ -1,9 +1,10 @@
-import { Component, inject, input, OnInit, output } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NewsService } from '../../core/services/news.service';
 import { News } from '../../core/models/news.model';
 import { ButtonDirective } from '../../shared/components/button/button';
+import { ToastService } from '../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-news-form',
@@ -14,6 +15,7 @@ export class NewsFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private newsService = inject(NewsService);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   news = input<News>();
   saved = output<News>();
@@ -27,6 +29,7 @@ export class NewsFormComponent implements OnInit {
   imagePreview: string | null = null;
   submitting = false;
   error = '';
+  fieldErrors = signal<Record<string, string[]>>({});
 
   ngOnInit(): void {
     const existing = this.news();
@@ -60,6 +63,7 @@ export class NewsFormComponent implements OnInit {
 
     this.submitting = true;
     this.error = '';
+    this.fieldErrors.set({});
     const { title, content } = this.form.getRawValue();
     const existing = this.news();
 
@@ -75,13 +79,23 @@ export class NewsFormComponent implements OnInit {
         if (existing) {
           this.saved.emit(res.data);
         } else {
+          this.toast.success('News created successfully.');
           this.router.navigate(['/news', res.data.id]);
         }
       },
       error: (err) => {
         this.submitting = false;
-        this.error = err.error?.message ?? 'Something went wrong.';
+        if (err.status === 422 && err.error?.errors) {
+          this.fieldErrors.set(err.error.errors);
+          this.error = err.error.message ?? 'Please fix the errors below.';
+        } else {
+          this.error = err.error?.message ?? 'Something went wrong.';
+        }
       },
     });
+  }
+
+  getFieldError(field: string): string {
+    return this.fieldErrors()[field]?.[0] ?? '';
   }
 }

@@ -6,6 +6,7 @@ import { NewsService } from '../../core/services/news.service';
 import { News } from '../../core/models/news.model';
 import { NewsFormComponent } from '../news-form/news-form';
 import { ButtonDirective } from '../../shared/components/button/button';
+import { ToastService } from '../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-news-detail',
@@ -17,10 +18,12 @@ export class NewsDetailComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
   private newsService = inject(NewsService);
+  private toast = inject(ToastService);
 
   news = signal<News | null>(null);
   loading = signal(true);
   editing = signal(false);
+  error = signal('');
   isAdmin = computed(() => this.authService.currentUser()?.role === 'admin');
 
   ngOnInit(): void {
@@ -30,9 +33,9 @@ export class NewsDetailComponent implements OnInit {
         this.news.set(res.data);
         this.loading.set(false);
       },
-      error: () => {
+      error: (err) => {
         this.loading.set(false);
-        this.router.navigate(['/dashboard']);
+        this.error.set(err.status === 404 ? 'News article not found.' : 'Failed to load article.');
       },
     });
   }
@@ -40,14 +43,21 @@ export class NewsDetailComponent implements OnInit {
   onUpdated(updated: News): void {
     this.news.set(updated);
     this.editing.set(false);
+    this.toast.success('News updated successfully.');
   }
 
   onDelete(): void {
     const news = this.news();
     if (!news || !confirm('Are you sure you want to delete this news?')) return;
 
-    this.newsService.delete(news.id).subscribe(() => {
-      this.router.navigate(['/dashboard']);
+    this.newsService.delete(news.id).subscribe({
+      next: () => {
+        this.toast.success('News deleted.');
+        this.router.navigate(['/dashboard']);
+      },
+      error: () => {
+        this.toast.error('Failed to delete news. Please try again.');
+      },
     });
   }
 }

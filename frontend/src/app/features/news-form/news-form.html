@@ -22,7 +22,11 @@
         id="title"
         formControlName="title"
         class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        [class.border-red-500]="getFieldError('title')"
       />
+      @if (getFieldError('title')) {
+        <p class="mt-1 text-sm text-red-600">{{ getFieldError('title') }}</p>
+      }
     </div>
 
     <div>
@@ -32,8 +36,11 @@
         type="file"
         accept="image/*"
         (change)="onFileSelected($event)"
-        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-blue-700 hover:file:bg-blue-100"
+        class="mt-1 block w-full cursor-pointer text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-blue-700 hover:file:bg-blue-100"
       />
+      @if (getFieldError('image')) {
+        <p class="mt-1 text-sm text-red-600">{{ getFieldError('image') }}</p>
+      }
       @if (imagePreview) {
         <img [src]="imagePreview" alt="Preview" class="mt-2 h-40 rounded-lg object-cover" />
       }
@@ -46,7 +53,11 @@
         formControlName="content"
         rows="8"
         class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        [class.border-red-500]="getFieldError('content')"
       ></textarea>
+      @if (getFieldError('content')) {
+        <p class="mt-1 text-sm text-red-600">{{ getFieldError('content') }}</p>
+      }
     </div>
 
     <div class="flex items-center gap-4">

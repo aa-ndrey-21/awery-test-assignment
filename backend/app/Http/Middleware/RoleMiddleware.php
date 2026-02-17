@@ -7,13 +7,14 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class RoleMiddleware
 {
     public function handle(Request $request, Closure $next, string $role): Response
     {
         if (! $request->user()?->hasRole($role)) {
-            abort(403, 'Forbidden.');
+            throw new AccessDeniedHttpException('Forbidden.');
         }
 
         return $next($request);

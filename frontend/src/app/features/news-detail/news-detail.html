@@ -14,8 +14,8 @@
 
 @if (loading()) {
   <p class="text-center text-gray-500">Loading...</p>
-} @else if (!news()) {
-  <p class="text-center text-gray-500">News not found.</p>
+} @else if (error()) {
+  <p class="text-center text-gray-500">{{ error() }}</p>
 } @else if (editing()) {
   <app-news-form [news]="news()!" (saved)="onUpdated($event)" />
 } @else {
