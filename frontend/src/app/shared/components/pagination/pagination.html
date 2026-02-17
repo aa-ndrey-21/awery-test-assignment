@@ -1,0 +1,21 @@
+@if (lastPage() > 1) {
+  <div class="mt-8 flex items-center justify-center gap-4">
+    <button
+      appButton
+      variant="secondary"
+      (click)="pageChange.emit(currentPage() - 1)"
+      [disabled]="currentPage() === 1"
+    >
+      Previous
+    </button>
+    <span class="text-sm text-gray-600"> Page {{ currentPage() }} of {{ lastPage() }} </span>
+    <button
+      appButton
+      variant="secondary"
+      (click)="pageChange.emit(currentPage() + 1)"
+      [disabled]="currentPage() === lastPage()"
+    >
+      Next
+    </button>
+  </div>
+}

@@ -1,0 +1,2 @@
+cd frontend && npx lint-staged && npx tsc --noEmit
+docker exec awery-test-assignment composer test

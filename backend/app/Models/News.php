@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
-    use HasFactory;
-
     /** @var list<string> */
     protected $fillable = [
         'title',

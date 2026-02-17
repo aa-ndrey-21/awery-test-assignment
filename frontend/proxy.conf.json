@@ -1,0 +1,17 @@
+{
+  "/api": {
+    "target": "http://host.docker.internal:8000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/sanctum": {
+    "target": "http://host.docker.internal:8000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/storage": {
+    "target": "http://host.docker.internal:8000",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

@@ -18,7 +18,7 @@ class UpdateNewsRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'string', 'max:255'],
-            'image' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'max:2048'],
             'content' => ['sometimes', 'string'],
         ];
     }

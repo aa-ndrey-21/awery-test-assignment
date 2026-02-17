@@ -1,0 +1,16 @@
+<a
+  [routerLink]="['/news', news().id]"
+  class="flex h-full flex-col rounded-lg bg-white shadow-sm transition hover:shadow-lg"
+>
+  @if (news().image) {
+    <img [src]="news().image" [alt]="news().title" class="h-48 w-full rounded-t-lg object-cover" />
+  }
+  <div class="flex flex-1 flex-col p-4">
+    <h3 class="text-lg font-semibold text-gray-900">{{ news().title }}</h3>
+    <p class="mt-2 text-sm text-gray-600">{{ excerpt() }}</p>
+    <div class="mt-auto flex items-center justify-between pt-4 text-xs text-gray-400">
+      <span>{{ news().user.name }}</span>
+      <span>{{ news().created_at | date: 'mediumDate' }}</span>
+    </div>
+  </div>
+</a>

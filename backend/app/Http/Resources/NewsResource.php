@@ -21,7 +21,7 @@ class NewsResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'image' => $this->image,
+            'image' => $this->image ? '/storage/' . $this->image : null,
             'content' => $this->content,
             'user' => UserResource::make($this->whenLoaded('user')),
             'created_at' => $this->created_at,

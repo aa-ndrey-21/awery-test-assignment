@@ -1,0 +1,21 @@
+<div class="mb-6 flex items-center justify-between">
+  <h2 class="text-2xl font-bold text-gray-900">News</h2>
+</div>
+
+@if (loading()) {
+  <p class="text-center text-gray-500">Loading...</p>
+} @else if (newsList().length === 0) {
+  <p class="text-center text-gray-500">No news articles yet.</p>
+} @else {
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    @for (news of newsList(); track news.id) {
+      <app-news-card [news]="news" />
+    }
+  </div>
+
+  <app-pagination
+    [currentPage]="currentPage()"
+    [lastPage]="lastPage()"
+    (pageChange)="loadNews($event)"
+  />
+}

@@ -30,8 +30,14 @@ class NewsController extends Controller
 
     public function store(StoreNewsRequest $request): NewsResource
     {
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('news', 'public');
+        }
+
         $news = News::create([
-            ...$request->validated(),
+            ...$data,
             'user_id' => $request->user()->id,
         ]);
 
@@ -42,7 +48,13 @@ class NewsController extends Controller
 
     public function update(UpdateNewsRequest $request, News $news): NewsResource
     {
-        $news->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('news', 'public');
+        }
+
+        $news->update($data);
         $news->load('user');
 
         return NewsResource::make($news);

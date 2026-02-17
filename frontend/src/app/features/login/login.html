@@ -1,0 +1,45 @@
+<div class="flex min-h-screen items-center justify-center bg-gray-100">
+  <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
+    <h1 class="mb-6 text-center text-2xl font-bold text-gray-900">Sign In</h1>
+
+    @if (errorMessage()) {
+      <div class="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="email" class="mb-2 block text-sm font-bold text-gray-700">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <div class="mb-6">
+        <label for="password" class="mb-2 block text-sm font-bold text-gray-700">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <button
+        appButton
+        variant="primary"
+        type="submit"
+        class="w-full font-bold"
+        [disabled]="loginForm.invalid || isLoading()"
+      >
+        {{ isLoading() ? 'Signing in...' : 'Sign In' }}
+      </button>
+    </form>
+  </div>
+</div>

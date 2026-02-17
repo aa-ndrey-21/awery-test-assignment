@@ -18,7 +18,7 @@ class StoreNewsRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'max:2048'],
             'content' => ['required', 'string'],
         ];
     }
