@@ -4,11 +4,24 @@ Full-stack news management application built with Laravel 12 and Angular 21.
 
 ## Quick Start
 
-1. `git clone https://github.com/aa-ndrey-21/awery-test-assignment.git`
-2. `cp backend/.env.example backend/.env`
-3. `docker compose up --build`
+```bash
+git clone https://github.com/aa-ndrey-21/awery-test-assignment.git
+cd awery-test-assignment
 
-The backend entrypoint automatically runs migrations and seeders, so the app is ready to use immediately.
+# Configure environment
+cp backend/.env.example backend/.env
+
+# Start containers
+docker compose up --build -d
+
+# One-time setup
+docker compose exec app composer install
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan storage:link
+docker compose exec app php artisan migrate --seed
+```
+
+Next time just `docker compose up -d`.
 
 ### Test Accounts
 
