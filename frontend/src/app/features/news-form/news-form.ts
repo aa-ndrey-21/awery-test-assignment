@@ -1,4 +1,12 @@
-import { Component, inject, input, OnInit, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NewsService } from '../../core/services/news.service';
@@ -8,8 +16,10 @@ import { ToastService } from '../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-news-form',
+  standalone: true,
   templateUrl: './news-form.html',
   imports: [ReactiveFormsModule, RouterLink, ButtonDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewsFormComponent implements OnInit {
   private fb = inject(FormBuilder);

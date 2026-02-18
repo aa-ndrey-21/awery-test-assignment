@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { News } from '../../../core/models/news.model';
@@ -9,6 +9,7 @@ import { News } from '../../../core/models/news.model';
   templateUrl: './news-card.html',
   imports: [RouterLink, DatePipe],
   host: { class: 'block h-full' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewsCardComponent {
   news = input.required<News>();

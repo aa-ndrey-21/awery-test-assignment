@@ -1,12 +1,14 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ButtonDirective } from '../../shared/components/button/button';
 
 @Component({
   selector: 'app-layout',
+  standalone: true,
   templateUrl: './layout.html',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, ButtonDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
   private authService = inject(AuthService);

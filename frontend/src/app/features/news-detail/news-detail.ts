@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
@@ -10,8 +17,10 @@ import { ToastService } from '../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-news-detail',
+  standalone: true,
   templateUrl: './news-detail.html',
   imports: [RouterLink, DatePipe, NewsFormComponent, ButtonDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewsDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);

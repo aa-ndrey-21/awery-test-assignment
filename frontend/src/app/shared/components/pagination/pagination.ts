@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ButtonDirective } from '../button/button';
 
 @Component({
@@ -6,6 +6,7 @@ import { ButtonDirective } from '../button/button';
   standalone: true,
   templateUrl: './pagination.html',
   imports: [ButtonDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {
   currentPage = input.required<number>();

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { NewsService } from '../../core/services/news.service';
 import { News } from '../../core/models/news.model';
 import { NewsCardComponent } from '../../shared/components/news-card/news-card';
@@ -6,8 +6,10 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   templateUrl: './dashboard.html',
   imports: [NewsCardComponent, PaginationComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
   private newsService = inject(NewsService);
